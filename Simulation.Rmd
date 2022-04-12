@@ -1,0 +1,75 @@
+---
+title: "Statistical Inference Course Project"
+author: "Maciej Gielnik"
+date: "15/11/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+## Overwiew
+In this project for Statistical Inference course I will report my results of exponential distribution simulation and basic inferential data analysis of the tooth growth in Guinea Pigs supplemented with a vitamin C.
+
+## Part 1: Simulation Exercise Instructions
+I simulate the exponential distribution with 40 observations and lambda = 0.2. Then I calculate the mean of the distribution and the variance of the distribution. I store means in means variable and variance in variance variable. I repeat that process 1000 times.
+
+```{r sim}
+means <- NULL
+variance <- NULL
+for (i in 1:1000) {
+    means <- c(means,  mean (rexp(40, rate = 0.2)))
+    variance <- c (variance, var(rexp(40, rate = 0.2)))
+} 
+```
+
+For the exponential distribution
+
+$$
+mean = 1/lambda
+$$
+Therefore with lambda = 0.2 mean od this distribution should be equal to 5.
+
+I make a histogram of means and calculate the mean
+
+```{r mean, fig.height = 3, fig.width = 4}
+hist(means, xlab = "mean", main = "mean of the exponantial distribution", breaks = 20)
+mean(means)
+```
+Calculated mean is very close to 5.
+
+Also for the exponential distribution
+
+$$
+{standard}_{deviation} = 1/lambda
+$$
+And
+$$
+variance = ({standard}_{deviation})^2
+$$
+Therefore:
+$$
+variance = (1/lambda)^2
+$$
+
+With lambda = 0.2 variance have to be equal to 25.
+
+I make a histogram of variance and calculate the variance
+
+```{r variance, fig.height = 3, fig.width = 4}
+hist(variance, xlab = "variance", main = "variance of the exponantial distribution", breaks = 50)
+mean(variance)
+```
+Calculated variance is close to 25.
+
+The histogram distribution of means was changed to a density. A normal distribution with mean of 5 and sigma = sd (means) was drawn with a line. The distribution is approximately normal.
+
+``` {r density}
+hist(means, breaks = 50, freq = FALSE, xlim = c(1, 10))
+x <- seq(min(means), max(means), length = 100)
+y <- dnorm(x, 5, sd = sd(means))
+lines(x, y)
+
+```
+
+
+
+

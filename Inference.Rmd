@@ -1,0 +1,89 @@
+---
+title: "Statistical Inference Course Project"
+author: "Maciej Gielnik"
+date: "15/11/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+# Overwiew
+In this project for Statistical Inference course I will report my results of exponential distribution simulation and basic inferential data analysis of the tooth growth in Guinea Pigs supplemented with a vitamin C.
+
+#  Part 2: Basic Inferential Data Analysis Instructions
+
+Loading ggplot2 and datasets. Changing dose and supp as a factor.
+
+```{r load}
+library(datasets)
+library(ggplot2)
+ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+ToothGrowth$supp <- as.factor(ToothGrowth$supp)
+```
+
+## Creating exploratory plot.
+``` {r exploratory plots, fig.height = 1.5, fig.width = 4}
+a <- ggplot(ToothGrowth, aes(x = dose, y = len, fill = supp))
+a <- a + geom_boxplot()
+a
+```
+
+## Splitting data into numeric vectors - see supplement
+``` {r splitting,  echo=FALSE}
+lenVC05 <- ToothGrowth [1:10, 1]
+lenVC10 <- ToothGrowth [11:20, 1]
+lenVC20 <- ToothGrowth [21:30, 1]
+lenOJ05 <- ToothGrowth [31:40, 1]
+lenOJ10 <- ToothGrowth [41:50, 1]
+lenOJ20 <- ToothGrowth [51:60, 1]
+```
+
+## Calculating summary of tooth length for each dose of vitamin C and each supplement type.
+```{r summary}
+summary(lenVC05)
+summary(lenVC10)
+summary(lenVC20)
+summary(lenOJ05)
+summary(lenOJ10)
+summary(lenOJ20)
+```
+
+## Testing if the dose of vitamin C from supplementation with ascorbic acid correspond to tooth length.
+I have used independent 2-group t-test with unequal variances.
+``` {r VC}
+t.test(lenVC05, lenVC10, paired = FALSE, var.equal = FALSE)
+t.test(lenVC05, lenVC20, paired = FALSE, var.equal = FALSE)
+```
+**The bigger the dose, the longer the teeth (p-value = 6.811e-07 and p-value = 4.682e-08 respectively). The same is true for the supplementation with Orange Juice, see supplement**
+
+## Testing if there are differences between supplement type and tooth length.
+I have used independent 2-group t-test with unequal variances.
+``` {r diff}
+t.test(lenVC05, lenOJ05, paired = FALSE, var.equal = FALSE)
+t.test(lenVC10, lenOJ10, paired = FALSE, var.equal = FALSE)
+t.test(lenVC20, lenOJ20, paired = FALSE, var.equal = FALSE)
+```
+**For doses 0.5 and 1.0 tooth length is bigger for the orange juice than for ascorbic acid (p = 0.006359 and p = 0.001038 respectively).**
+**For dose 2.0 there is no difference between supplement types and tooth length (p = 0.9639).**
+
+
+# Supplement
+
+## Splitting data into numeric vectors 
+``` {r splitting2}
+lenVC05 <- ToothGrowth [1:10, 1]
+lenVC10 <- ToothGrowth [11:20, 1]
+lenVC20 <- ToothGrowth [21:30, 1]
+lenOJ05 <- ToothGrowth [31:40, 1]
+lenOJ10 <- ToothGrowth [41:50, 1]
+lenOJ20 <- ToothGrowth [51:60, 1]
+```
+
+## Testing if the dose of vitamin C from supplementation with orange juice correspond to tooth length.
+I have used independent 2-group t-test with unequal variances.
+``` {r OJ}
+t.test(lenOJ05, lenOJ10, paired = FALSE, var.equal = FALSE)
+t.test(lenOJ05, lenOJ20, paired = FALSE, var.equal = FALSE)
+```
+**The bigger the dose, the longer the teeth**
+
+
